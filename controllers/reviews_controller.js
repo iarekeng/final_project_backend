@@ -1,5 +1,4 @@
-const express = require('express')
-const review = express.Router()
+const review = require('express').Router()
 const Review = require('../models/review')
 
 
@@ -10,14 +9,30 @@ review.get('/', (req, res) => {
   })
 })
 
-// CREATE ROUTE
-review.post('/', (req, res) => {
-  Review.create(req.body, (err, createdReview) => {
-    Review.find({}, (err, foundReview) => {
-      res.json(foundReview)
-    })
-  })
+review.get('/:id', async (req, res) => {
+  const singlereview = await Review.findById(req.params.id);
+  res.json(singlereview)
 })
+
+// CREATE ROUTE
+
+review.post('/', async (req, res) => {
+  const { title, name, date, comment } = req.body;
+
+  const newReview = new Review({
+    title,
+    name,
+    date,
+    comment
+  })
+  try {
+    const savedReview = await newReview.save();
+    res.json(savedReview)
+  } catch(err) {
+      console.error(err);
+    }
+})
+
 
 
 // UPDATE ROUTE

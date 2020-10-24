@@ -1,6 +1,7 @@
 // DEPENDENCIES
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const mongoose = require('mongoose');
 const db = mongoose.connection;
 require("dotenv").config();
@@ -24,6 +25,7 @@ db.on("disconnected", () => console.log("mongoDB disconnected"));
 
 //MIDDLEWARE
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 
 // CONTROLERS
