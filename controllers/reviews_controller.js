@@ -19,4 +19,23 @@ review.post('/', (req, res) => {
   })
 })
 
+
+// UPDATE ROUTE
+review.put('/:id', (req, res) => {
+  Review.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedReview) => {
+    Review.find({}, (err, foundReview) => {
+      res.json(foundReview)
+    })
+  })
+})
+
+// DELETE ROUTE
+review.delete('/:id', (req, res) => {
+  Review.findByIdAndRemove(req.params.id, (err, deletedReview) => {
+    Review.find({}, (err, foundReview) => {
+      res.json(foundReview)
+    })
+  })
+})
+
 module.exports = review
